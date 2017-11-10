@@ -23,7 +23,6 @@ namespace ZalandoShop.Views
     public sealed partial class ZalandoSearchResultView : UserControl
     {
         static string _oldSearchValue = string.Empty;
-        private object isItemsFound;
 
         public ZalandoSearchResultView()
         {

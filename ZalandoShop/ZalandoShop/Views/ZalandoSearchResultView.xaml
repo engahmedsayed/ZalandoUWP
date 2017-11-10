@@ -52,7 +52,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <controls:AdaptiveGridView Name="itemGridView" 
+        <controls:AdaptiveGridView x:FieldModifier="public" Name="itemGridView" 
                                    Grid.Row="1"
                                    OneRowModeEnabled="False"
                                    ItemHeight="400"
