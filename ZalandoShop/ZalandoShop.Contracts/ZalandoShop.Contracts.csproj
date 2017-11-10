@@ -107,8 +107,18 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\IZalandoProductItem.cs" />
+    <Compile Include="Models\IZalandoProductsWithPagingInfo.cs" />
+    <Compile Include="Models\ZalandoProductsWithPagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IZalandoDataService.cs" />
     <EmbeddedResource Include="Properties\ZalandoShop.Contracts.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZalandoShop.Shared\ZalandoShop.Shared.csproj">
+      <Project>{F462085B-59AB-49E0-9E1D-94F1BF1D793C}</Project>
+      <Name>ZalandoShop.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -107,8 +107,31 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataService\Brand.cs" />
+    <Compile Include="DataService\BrandFamily.cs" />
+    <Compile Include="DataService\Content.cs" />
+    <Compile Include="DataService\Facet.cs" />
+    <Compile Include="DataService\FacetResult.cs" />
+    <Compile Include="DataService\Image.cs" />
+    <Compile Include="DataService\Media.cs" />
+    <Compile Include="DataService\OriginalPrice.cs" />
+    <Compile Include="DataService\Price.cs" />
+    <Compile Include="DataService\RootObject.cs" />
+    <Compile Include="DataService\SearchObject.cs" />
+    <Compile Include="DataService\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZalandoProductItem.cs" />
     <EmbeddedResource Include="Properties\ZalandoShop.Model.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZalandoShop.Contracts\ZalandoShop.Contracts.csproj">
+      <Project>{979695BE-F7FB-4DBB-9796-22F8B3C1EAFA}</Project>
+      <Name>ZalandoShop.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZalandoShop.Shared\ZalandoShop.Shared.csproj">
+      <Project>{F462085B-59AB-49E0-9E1D-94F1BF1D793C}</Project>
+      <Name>ZalandoShop.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
