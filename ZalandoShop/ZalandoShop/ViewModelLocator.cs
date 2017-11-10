@@ -3,6 +3,7 @@
 using ZalandoShop.Contracts.Models;
 using ZalandoShop.Contracts.Services;
 using ZalandoShop.Model;
+using ZalandoShop.Services;
 using ZalandoShop.Shared;
 using ZalandoShop.ViewModel;
 
@@ -17,6 +18,9 @@ namespace ZalandoShop
 
             InstanceFactory.RegisterWithTransientLifetime<IZalandoProductsWithPagingInfo,
                ZalandoProductsWithPagingInfo>();
+
+            InstanceFactory.RegisterType<IZalandoDataService,
+                ZalandoDataService>();
 
         }
 
@@ -40,6 +44,14 @@ namespace ZalandoShop
             get
             {
                 return InstanceFactory.GetInstance<SearchResultsViewModel>();
+            }
+        }
+
+        public IZalandoDataService ZalandoDataService
+        {
+            get
+            {
+                return InstanceFactory.GetInstance<IZalandoDataService>();
             }
         }
 

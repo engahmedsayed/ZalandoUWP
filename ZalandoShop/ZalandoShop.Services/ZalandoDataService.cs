@@ -72,6 +72,10 @@ namespace ZalandoShop.Services
 
         public async Task<ObservableCollection<string>> Search(string searchKeyWord, FilterType filterType)
         {
+            if (string.IsNullOrWhiteSpace(searchKeyWord))
+            {
+                return null;
+            }
             string repUrl = string.Format("{0}", baseUri + facetEndpointName);
             string cashedFacets = "Facets.json";
             ObservableCollection<string> searchResults = new ObservableCollection<string>();

@@ -7,11 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding Source={StaticResource Locator}, Path=SearchResultsViewModel}"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
-    <ResourceDictionary>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
         <DataTemplate x:Key="WaitListTemplate">
 
             <StackPanel Orientation="Horizontal" Padding="12">
@@ -25,13 +28,20 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ZalandoPhotosTemplate">
-            <Grid HorizontalAlignment="Left" Width="250" Height="250">
-                <Border Background="Blue">
-                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill"/>
+            <Grid HorizontalAlignment="Left" Width="400" Height="400" BorderBrush="Blue">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="Blue">
+                    <Image Source="{Binding ImageUrl}" Stretch="Fill"/>
                 </Border>
-                <StackPanel VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding ProductName}" Foreground="Red" Height="60" Margin="15,0,15,0"/>
-                </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Background="DarkGray">
+                    <TextBlock Text="{Binding ProductName}" Foreground="Black"/>
+                        <TextBlock Text="{Binding BrandName}" Foreground="Black"/>
+                        <TextBlock Text="{Binding Size}" Foreground="Black"/>
+                        <TextBlock Text="{Binding PriceFormatted}" Foreground="Black"/>
+                    </StackPanel>
             </Grid>
         </DataTemplate>
     </ResourceDictionary>
@@ -43,16 +53,14 @@
         </Grid.RowDefinitions>
 
         <controls:AdaptiveGridView Name="itemGridView" 
-                                   ScrollViewer.IsHorizontalRailEnabled="True" 
-                                   ScrollViewer.HorizontalScrollMode="Auto" 
-                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                    Grid.Row="1"
                                    OneRowModeEnabled="False"
-                                   ItemHeight="200"
-                                   DesiredWidth="300"
+                                   ItemHeight="400"
+                                   DesiredWidth="400"
                                    SelectionMode="Single"
                                    IsItemClickEnabled="False"
-                                   ItemTemplate="{StaticResource ZalandoPhotosTemplate}">
+                                   ItemTemplate="{StaticResource ZalandoPhotosTemplate}"
+                                   Visibility="{Binding Path=IsInternetConnected, Converter={StaticResource BoolToVisibilityConverter}}">
         </controls:AdaptiveGridView>
 
         <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="Center" IsLoading="{Binding IsLoading}"
@@ -64,5 +72,7 @@
             <ContentControl x:Name="LoadingContentControl" ContentTemplate="{Binding Source={StaticResource WaitListTemplate}}"/>
 
         </controls:Loading>
+        <TextBlock Grid.Row="1" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Text="No Internet connection" Visibility="{Binding Path=IsInternetConnected, Converter={StaticResource InverseBoolToVisibilityConverter}}"></TextBlock>
+        <TextBlock Grid.Row="1" x:Name="lblNoDataFound" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="No Data found" Visibility="{Binding Path=IsDataFound, Converter={StaticResource InverseBoolToVisibilityConverter}}"></TextBlock>
     </Grid>
 </UserControl>

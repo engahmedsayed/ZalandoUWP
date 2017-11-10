@@ -21,6 +21,7 @@ namespace ZalandoShop.ViewModel
         private IZalandoDataService _zalandoDataService;
         private bool _isLoading;
         private bool _isInternetConnected;
+        private bool _isDataFound;
         #endregion
 
         #region Events
@@ -65,10 +66,25 @@ namespace ZalandoShop.ViewModel
         public int CurrentPageNumber { get; set; }
         public bool IsInternetConnected
         {
-            get { return _isInternetConnected; }
+            get
+            {
+                return _isInternetConnected;
+            }
             set
             {
                 Set(() => IsInternetConnected, ref _isInternetConnected, value);
+            }
+        }
+
+        public bool IsDataFound
+        {
+            get
+            {
+                return _isDataFound;
+            }
+            set
+            {
+                Set(() => IsDataFound, ref _isDataFound, value);
             }
         }
 
@@ -80,11 +96,14 @@ namespace ZalandoShop.ViewModel
         {
             _zalandoDataService = InstanceFactory.GetInstance<IZalandoDataService>();
             IsLoading = false;
-            IsInternetConnected = false;
+            IsInternetConnected = true;
+            IsDataFound = true;
         }
         public SearchResultsViewModel(IZalandoDataService zalandoDataService)
         {
             _zalandoDataService = zalandoDataService;
+            IsInternetConnected = true;
+            IsDataFound = true;
             // HasMoreItems = true;
             InitializeMessenger();
         }
@@ -100,19 +119,19 @@ namespace ZalandoShop.ViewModel
                     TotalPagesCount = 0;
                     CurrentSearchValue = s.SearchKeyWord;
                     CurrentFilterType = s.FilterType;
+                    await GetPagedItemsAsync(CurrentPageNumber, 30);
                     if (SearchValueChanged != null)
                         SearchValueChanged(s.SearchKeyWord);
-                    await GetPagedItemsAsync(CurrentPageNumber, 30);
                     // await LoadMoreItemsAsync(30);
                     //await Search(s.SearchKeyWord, s.FilterType);
                 });
         }
         private async Task<ObservableCollection<IZalandoProductItem>> Search(string searchValue, FilterType filterType, int pageNumber = 1, int pageCount = 30)
         {
-            if(NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            if(!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
                 IsInternetConnected = false;
-                return null;
+                return new ObservableCollection<IZalandoProductItem>();
             }
             else
             {
@@ -123,6 +142,14 @@ namespace ZalandoShop.ViewModel
                 TotalPagesCount = results != null ?results.TotalPages : 0;
                 ZalandoProducts = new ObservableCollection<IZalandoProductItem>(results.IZalandoProductItems);
                 IsLoading = false;
+                if(ZalandoProducts == null || !ZalandoProducts.Any())
+                {
+                    IsDataFound = false;
+                }
+                else
+                {
+                    IsDataFound = true;
+                }
                 return ZalandoProducts;
             }
         }
@@ -141,6 +168,7 @@ namespace ZalandoShop.ViewModel
                 var result = await Search(CurrentSearchValue, CurrentFilterType, pageIndex);
                 return result.ToList();
             }
+            IsDataFound = false;
             return null;
         }
         #endregion
