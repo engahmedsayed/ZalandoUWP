@@ -16,17 +16,21 @@ namespace ZalandoShop.Services
 {
     public class ZalandoDataService : IZalandoDataService
     {
+        #region Private Fields
         //ToDo: Add to configuration file.
-        private string baseUri = "https://api.zalando.com/";
-        private string articlesEndPointName = "articles";
-        private string facetEndpointName = "facets";
+        private string _baseUri = "https://api.zalando.com/";
+        private string _articlesEndPointName = "articles";
+        private string _facetEndpointName = "facets";
+        #endregion
+
+        #region Public Methods
         public async Task<IZalandoProductsWithPagingInfo> GetArticlesPaged(string searchKeyWord, FilterType filterType = FilterType.NoFilter, int pageNumber = 1, int pageCount = 20)
         {
 
             IZalandoProductsWithPagingInfo zalandoProductItemsWithPaging = InstanceFactory.GetInstance<IZalandoProductsWithPagingInfo>(); ;
             using (var client = new HttpClient())
             {
-                string repUrl = string.Format("{0}?fullText={1}", baseUri + articlesEndPointName, searchKeyWord);
+                string repUrl = string.Format("{0}?fullText={1}", _baseUri + _articlesEndPointName, searchKeyWord);
                 HttpResponseMessage response;
                 //
                 switch (filterType)
@@ -76,7 +80,7 @@ namespace ZalandoShop.Services
             {
                 return null;
             }
-            string repUrl = string.Format("{0}", baseUri + facetEndpointName);
+            string repUrl = string.Format("{0}", _baseUri + _facetEndpointName);
             string cashedFacets = "Facets.json";
             ObservableCollection<string> searchResults = new ObservableCollection<string>();
             //Cash results for the next 5 min.
@@ -91,7 +95,7 @@ namespace ZalandoShop.Services
                 localSettings.Values["#cashValueInMinutes"] = DateTime.Now.ToString();
             }
             //
-            if ((DateTime.Now - Convert.ToDateTime(localSettings.Values["#cashValueInMinutes"])).Minutes > 2 || !await StorageHelper.DoesFileExistAsync
+            if ((DateTime.Now - Convert.ToDateTime(localSettings.Values["#cashValueInMinutes"])).Minutes > 5 || !await StorageHelper.DoesFileExistAsync
                    (cashedFacets, localFolder))
             {
                 using (var client = new HttpClient())
@@ -151,5 +155,7 @@ namespace ZalandoShop.Services
             }
             return searchResults;
         }
+
+        #endregion
     }
 }

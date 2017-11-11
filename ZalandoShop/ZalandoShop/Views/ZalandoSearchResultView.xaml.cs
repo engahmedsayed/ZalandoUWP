@@ -45,7 +45,6 @@ namespace ZalandoShop.Views
                 itemGridView.Template = null;
                 itemGridView.Template = gridTemplate;
                 itemGridView.ItemsSource = collection;
-                var itemFound = itemGridView.ItemsSource as IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem>;
             }
         }
     }
