@@ -7,7 +7,7 @@ using ZalandoShop.Tests.Fake;
 namespace ZalandoShop.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTestFakeDataService
     {
         [ClassInitialize]
         public static void Initialize(TestContext context)
