@@ -10,30 +10,38 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Search Zalando products by keyword" x:Name="txtSearchByKeyWord" FontSize="15" Margin="0 10 0 0" HorizontalAlignment="Left"></TextBlock>
-            <AutoSuggestBox Header="Filter Articles" RelativePanel.RightOf="txtSearchByKeyWord" x:Name="txtAutoSuggest"
+    <RelativePanel Background="#FFF2F2F2">
+        <RelativePanel  Height="60" RelativePanel.AlignRightWithPanel="True" Background="Transparent">
+            <AutoSuggestBox Header="Filter Articles" x:Name="txtAutoSuggest"
+                            MinWidth="300"
+                PlaceholderText="Search zalando products by keyword"
                 TextChanged="{x:Bind Vm.FilterArticles}"
                 QuerySubmitted="{x:Bind Vm.ProcessQuery}"
                 ItemsSource="{x:Bind Vm.Articles, Mode=OneWay}"
                 Text="{x:Bind Vm.SearchText, Mode=TwoWay}"
-                QueryIcon="Find" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-        <Button Content="Search" FontSize="20" x:Name="btnSearch"
-                RelativePanel.Below="txtAutoSuggest"
-                Command="{Binding SearchZalandoCommand}"
-                >
+                QueryIcon="Find" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-        </Button>
-        <Button x:Name="btnMaleFilter" Content="Men" RelativePanel.LeftOf="btnSearch" FontSize="{Binding MenFontSize,Mode=TwoWay}"  Background="{Binding MaleForeGroundColor,Mode=TwoWay}"
+            <Button Margin="4,0,0,-30" RelativePanel.AlignVerticalCenterWithPanel="True" Command="{Binding SearchZalandoCommand}"
+                    RelativePanel.RightOf="txtAutoSuggest" x:Name="searchIcon" Background="Transparent">
+                <Button.Content>
+                    <FontIcon 
+                            Foreground="{StaticResource MyCaptionForegroundBrush}"
+                            Glyph="&#xE094;"
+                            FontSize="22"
+                            MaxHeight="48"/>
+                </Button.Content>
+            </Button>
+
+        </RelativePanel>
+        <Button x:Name="btnMaleFilter" Content="Men" FontSize="{Binding MenFontSize,Mode=TwoWay}"  Background="{Binding MaleForeGroundColor,Mode=TwoWay}"
                 Command="{Binding MenFilterCommand}">
         </Button>
-        <Button Content="Women" FontSize="{Binding WomenFontSize,Mode=TwoWay}" Background="{Binding FemaleForeGroundColor}" 
+        <Button Content="Women" x:Name="btnFemaleFilter" FontSize="{Binding WomenFontSize,Mode=TwoWay}" Background="{Binding FemaleForeGroundColor}" 
                 RelativePanel.RightOf="btnMaleFilter" Command="{Binding WomenFilterCommand}">
         </Button>
-        </StackPanel>
+        <Button Height="40" Content="Clear Filter" FontSize="{Binding NoFilterFontSize,Mode=TwoWay}" Background="{Binding NoFilterForeGroundColor}" 
+                RelativePanel.Below="btnFemaleFilter" Command="{Binding NoFilterFilterCommand}">
+        </Button>
 
-    </StackPanel>
+    </RelativePanel>
 </UserControl>

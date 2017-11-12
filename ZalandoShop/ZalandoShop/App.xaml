@@ -5,6 +5,11 @@
     xmlns:local="using:ZalandoShop"
     RequestedTheme="Light">
     <Application.Resources>
-        <local:ViewModelLocator x:Key="Locator"/>
+        <ResourceDictionary>
+            <local:ViewModelLocator x:Key="Locator"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/CustomStyles"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

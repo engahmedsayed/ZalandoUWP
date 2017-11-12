@@ -23,28 +23,31 @@ namespace ZalandoShop.Views
     public sealed partial class ZalandoSearchResultView : UserControl
     {
         static string _oldSearchValue = string.Empty;
+        static Shared.FilterType _oldFilterType;
+        private IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem> _dataSource; 
 
         public ZalandoSearchResultView()
         {
             this.InitializeComponent();
-            var collection = new IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem>();
+            _dataSource = new IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem>();
             if (this.DataContext is SearchResultsViewModel)
             {
                 SearchResultsViewModel.SearchValueChanged += CurrentDataContext_SearchValueChanged;
             }
-            itemGridView.ItemsSource = collection;
+            itemGridView.ItemsSource = _dataSource;
         }
 
-        private void CurrentDataContext_SearchValueChanged(string currentSearchValue)
+        private void CurrentDataContext_SearchValueChanged(string currentSearchValue, Shared.FilterType currentFilterType)
         {
-            if (_oldSearchValue != currentSearchValue)
+            if (_oldSearchValue.ToLower() != currentSearchValue.ToLower() || _oldFilterType != currentFilterType)
             {
                 _oldSearchValue = currentSearchValue;
+                _oldFilterType = currentFilterType;
                 var gridTemplate = itemGridView.Template;
-                var collection = new IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem>();
+                _dataSource = new IncrementalLoadingCollection<SearchResultsViewModel, IZalandoProductItem>();
                 itemGridView.Template = null;
                 itemGridView.Template = gridTemplate;
-                itemGridView.ItemsSource = collection;
+                itemGridView.ItemsSource = _dataSource;
             }
         }
     }

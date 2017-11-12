@@ -62,7 +62,7 @@ namespace ZalandoShop.Services
                             zalandoProductItem.ProductName = item.name;
                             zalandoProductItem.Size = item.units.FirstOrDefault().size;
                             zalandoProductItem.PriceFormatted = item.units.FirstOrDefault().price.formatted;
-                            zalandoProductItem.ImageUrl = item.media.images.FirstOrDefault() != null ? item.media.images.FirstOrDefault().smallUrl : null;
+                            zalandoProductItem.ImageUrl = item.media.images.FirstOrDefault() != null ? item.media.images.FirstOrDefault().smallHdUrl : null;
                             zalandoProductItems.Add(zalandoProductItem);
                             zalandoProductItem = InstanceFactory.GetInstance<IZalandoProductItem>();
                         }

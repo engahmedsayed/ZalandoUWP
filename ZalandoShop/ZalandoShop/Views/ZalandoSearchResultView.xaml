@@ -27,27 +27,72 @@
 
         </DataTemplate>
 
-        <DataTemplate x:Key="ZalandoPhotosTemplate">
-            <Grid HorizontalAlignment="Left" Width="400" Height="400" BorderBrush="Blue">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Background="Blue">
-                    <Image Source="{Binding ImageUrl}" Stretch="Fill"/>
+        <DataTemplate x:Key="ZalandoPhotosLargeTemplate">
+            <Grid HorizontalAlignment="Left" Width="200" Height="200" BorderBrush="Blue">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.6*"></RowDefinition>
+                        <RowDefinition Height="0.4*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="Transparent">
+                    <Image Source="{Binding ImageUrl}" Stretch="Uniform"/>
                 </Border>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom" Background="DarkGray">
-                    <TextBlock Text="{Binding ProductName}" Foreground="Black"/>
-                        <TextBlock Text="{Binding BrandName}" Foreground="Black"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Background="White">
+                        <TextBlock Text="{Binding ProductName}" TextWrapping="WrapWholeWords" Foreground="Black"/>
+                        <TextBlock Text="{Binding BrandName}" TextWrapping="WrapWholeWords" Foreground="Black"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Size: "></TextBlock>
                         <TextBlock Text="{Binding Size}" Foreground="Black"/>
+                        </StackPanel>
                         <TextBlock Text="{Binding PriceFormatted}" Foreground="Black"/>
                     </StackPanel>
             </Grid>
-        </DataTemplate>
-    </ResourceDictionary>
+            </DataTemplate>
+            <DataTemplate x:Key="ZalandoPhotosSmallTemplate">
+                <Grid HorizontalAlignment="Left" Width="400" Height="200" BorderBrush="Blue">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.35*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.65*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="White">
+                        <Image Source="{Binding ImageUrl}" Stretch="Fill"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Stretch" Background="White" HorizontalAlignment="Stretch">
+                        <TextBlock Text="{Binding ProductName}" TextWrapping="Wrap" Foreground="Black"/>
+                        <TextBlock Text="{Binding BrandName}" TextWrapping="Wrap" Foreground="Black"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Size: "></TextBlock>
+                        <TextBlock Text="{Binding Size}" Foreground="Black"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding PriceFormatted}" Foreground="Black"/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="itemGridView.ItemTemplate" Value="{StaticResource ZalandoPhotosSmallTemplate}" />
+                        <Setter Target="itemGridView.DesiredWidth" Value="400"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Large">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="itemGridView.ItemTemplate" Value="{StaticResource ZalandoPhotosLargeTemplate}" />
+                        <Setter Target="itemGridView.DesiredWidth" Value="200"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
@@ -55,11 +100,9 @@
         <controls:AdaptiveGridView x:FieldModifier="public" Name="itemGridView" 
                                    Grid.Row="1"
                                    OneRowModeEnabled="False"
-                                   ItemHeight="400"
-                                   DesiredWidth="400"
+                                   ItemHeight="200"
                                    SelectionMode="Single"
                                    IsItemClickEnabled="False"
-                                   ItemTemplate="{StaticResource ZalandoPhotosTemplate}"
                                    Visibility="{Binding Path=IsInternetConnected, Converter={StaticResource BoolToVisibilityConverter}}">
         </controls:AdaptiveGridView>
 

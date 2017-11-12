@@ -26,7 +26,7 @@ namespace ZalandoShop.ViewModel
 
         #region Events
         //This event is fired when the search value changed in order to update the UI.
-        public static event Action<string> SearchValueChanged;
+        public static event Action<string,FilterType> SearchValueChanged;
         #endregion
 
         #region Commands
@@ -121,9 +121,7 @@ namespace ZalandoShop.ViewModel
                     CurrentFilterType = s.FilterType;
                     await GetPagedItemsAsync(CurrentPageNumber, 30);
                     if (SearchValueChanged != null)
-                        SearchValueChanged(s.SearchKeyWord);
-                    // await LoadMoreItemsAsync(30);
-                    //await Search(s.SearchKeyWord, s.FilterType);
+                        SearchValueChanged(s.SearchKeyWord,s.FilterType);
                 });
         }
         private async Task<ObservableCollection<IZalandoProductItem>> Search(string searchValue, FilterType filterType, int pageNumber = 1, int pageCount = 30)

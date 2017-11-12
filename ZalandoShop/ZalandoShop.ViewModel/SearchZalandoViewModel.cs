@@ -20,8 +20,10 @@ namespace ZalandoShop.ViewModel
         IZalandoDataService _zalandoDataService;
         private int _menFontSize;
         private int _womenFontSize;
+        private int _noFilterFontSize;
         private SolidColorBrush _maleForeGroundColor;
         private SolidColorBrush _femaleForeGroundColor;
+        private SolidColorBrush _noFilterForeGroundColor;
         private string _searchText;
         private ObservableCollection<string> _articles;
         #endregion
@@ -38,6 +40,7 @@ namespace ZalandoShop.ViewModel
             get;
             private set;
         }
+        public RelayCommand NoFilterFilterCommand { get; private set; }
 
         public RelayCommand SearchZalandoCommand
         {
@@ -63,6 +66,15 @@ namespace ZalandoShop.ViewModel
                 Set(() => WomenFontSize, ref _womenFontSize, value);
             }
         }
+
+        public int NoFilterFontSize
+        {
+            get { return _noFilterFontSize; }
+            set
+            {
+                Set(() => NoFilterFontSize, ref _noFilterFontSize, value);
+            }
+        }
         public SolidColorBrush MaleForeGroundColor
         {
             get { return _maleForeGroundColor; }
@@ -80,6 +92,16 @@ namespace ZalandoShop.ViewModel
                 Set(() => FemaleForeGroundColor, ref _femaleForeGroundColor, value);
             }
         }
+
+        public SolidColorBrush NoFilterForegroundColor
+        {
+            get { return _noFilterForeGroundColor; }
+            set
+            {
+                Set(() => NoFilterForegroundColor, ref _noFilterForeGroundColor, value);
+            }
+        }
+
 
         public ObservableCollection<string> Articles
         {
@@ -105,9 +127,11 @@ namespace ZalandoShop.ViewModel
             InitializeCommands();
             _maleForeGroundColor = new SolidColorBrush();
             _femaleForeGroundColor = new SolidColorBrush();
+            _noFilterForeGroundColor = new SolidColorBrush();
             Articles = new ObservableCollection<string>();
             _menFontSize = 20;
             _womenFontSize = 20;
+            _noFilterFontSize = 20;
         }
         #endregion
 
@@ -132,6 +156,10 @@ namespace ZalandoShop.ViewModel
                 RaisePropertyChanged("WomenFontSize");
                 FemaleForeGroundColor = new SolidColorBrush(Colors.White);
                 RaisePropertyChanged("FemaleForeGroundColor");
+                NoFilterFontSize = 20;
+                RaisePropertyChanged("NoFilterFontSize");
+                NoFilterForegroundColor = new SolidColorBrush(Colors.White);
+                RaisePropertyChanged("NoFilterForegroundColor");
                 FilterType = FilterType.Male;
             }, () => true);
             WomenFilterCommand = new RelayCommand(() =>
@@ -144,7 +172,28 @@ namespace ZalandoShop.ViewModel
                 RaisePropertyChanged("MenFontSize");
                 MaleForeGroundColor = new SolidColorBrush(Colors.White);
                 RaisePropertyChanged("MaleForeGroundColor");
+                NoFilterFontSize = 20;
+                RaisePropertyChanged("NoFilterFontSize");
+                NoFilterForegroundColor = new SolidColorBrush(Colors.White);
+                RaisePropertyChanged("NoFilterForegroundColor");
                 FilterType = FilterType.Female;
+            }, () => true);
+
+            NoFilterFilterCommand = new RelayCommand(() =>
+            {
+                NoFilterFontSize = 25;
+                NoFilterForegroundColor = new SolidColorBrush(Colors.Orange);
+                RaisePropertyChanged("NoFilterForegroundColor");
+                RaisePropertyChanged("NoFilterFontSize");
+                MenFontSize = 20;
+                RaisePropertyChanged("MenFontSize");
+                MaleForeGroundColor = new SolidColorBrush(Colors.White);
+                RaisePropertyChanged("MaleForeGroundColor");
+                WomenFontSize = 20;
+                RaisePropertyChanged("WomenFontSize");
+                FemaleForeGroundColor = new SolidColorBrush(Colors.White);
+                RaisePropertyChanged("FemaleForeGroundColor");
+                FilterType = FilterType.NoFilter;
             }, () => true);
 
         }

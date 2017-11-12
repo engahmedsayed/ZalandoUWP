@@ -14,10 +14,10 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Views:ZalandoSearchView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Views:ZalandoSearchView>
+        <Views:ZalandoSearchView Grid.Row="0" Grid.ColumnSpan="2"></Views:ZalandoSearchView>
         <Views:ZalandoSearchResultView Grid.Row="1" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollMode="Enabled"></Views:ZalandoSearchResultView>
     </Grid>
 </Page>
